@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 24px;
+        }
+        .red {
+            color: red;
+        }
+        .blue {
+            color: blue;
+        }
+
+        .bouton{
+            position: absolute;
+            top: 50%;
+            left: 23%;
+            transform: translate(-50%, -50%);
+        }
+
+        .bouton {
+            color:#fff;
+            text-decoration: none;
+            border: 1px solid transparent;
+            padding: 10px 20px;
+        }
+
+        .btn:hover{
+            background: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Jeux Croix et rond </h2>
+
+<table id="gameTable">
+    <tr>
+        <td id="cell1" onclick="addSign(1)"></td>
+        <td id="cell2" onclick="addSign(2)"></td>
+        <td id="cell3" onclick="addSign(3)"></td>
+    </tr>
+    <tr>
+        <td id="cell4" onclick="addSign(4)"></td>
+        <td id="cell5" onclick="addSign(5)"></td>
+        <td id="cell6" onclick="addSign(6)"></td>
+    </tr>
+    <tr>
+        <td id="cell7" onclick="addSign(7)"></td>
+        <td id="cell8" onclick="addSign(8)"></td>
+        <td id="cell9" onclick="addSign(9)"></td>
+    </tr>
+</table>
+
+
+<div class="bouton">
+   <button onclick="resetGame()"class="btn">Recommencer</button>
+</div>
+
+
+<script>
+    var player = "X";
+    var gameState = ["", "", "", "", "", "", "", "", ""];
+
+    function addSign(cellId) {
+        if (gameState[cellId - 1] === "") {
+            gameState[cellId - 1] = player;
+            document.getElementById("cell" + cellId).textContent = player;
+            if (player === "X") {
+                document.getElementById("cell" + cellId).classList.add("red");
+            } else {
+                document.getElementById("cell" + cellId).classList.add("blue");
+            }
+            player = player === "X" ? "O" : "X";
+            checkWin();
+        }
+    }
+
+    function checkWin() {
+        var lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            var a = lines[i][0];
+            var b = lines[i][1];
+            var c = lines[i][2];
+
+            if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+                alert(gameState[a] + " a gagne!");
+                resetGame();
+            }
+        }
+    }
+
+    function resetGame() {
+        player = "X";
+        gameState = ["", "", "", "", "", "", "", "", ""];
+        for (var i = 1; i <= 9; i++) {
+            document.getElementById("cell" + i).textContent = "";
+            document.getElementById("cell" + i).classList.remove("red");
+            document.getElementById("cell" + i).classList.remove("blue");
+        }
+    }
+</script>
+
+</body>
+</html>
